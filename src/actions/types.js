@@ -1,1 +1,0 @@
-export const STREAM_CHANNELS = 'STREAMER_CHANNELS';
