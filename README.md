@@ -1,1 +1,8 @@
-Twitch Stream Viewer made with ReduxSimpleStarter from Stephen Grider. https://github.com/StephenGrider/ReduxSimpleStarter
+Twitch Stream Viewer made with React.
+
+To view the project: 
+
+-clone the repo
+-npm install
+-npm start
+-open up port 8080
