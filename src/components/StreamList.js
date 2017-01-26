@@ -1,6 +1,13 @@
 import React, {Component} from 'react';
 import UserInfo from './UserInfo';
 import axios from 'axios';
+import styled from 'styled-components';
+
+const Table = styled.table`
+  max-width: 900px;
+  margin: auto;
+  background-color: #093145;
+`;
 
 class StreamList extends Component {
   constructor(props) {
@@ -17,27 +24,33 @@ class StreamList extends Component {
         this.streamChannels(this.state.streamers);
     }
 
-
     streamChannels(streamers) {
-
       streamers.map(streamer => {
-        let url = `${this.state.ROOT_URL}channels/${streamer}`;
-        return axios.get(url).then(request => {
-          console.log(request.data);
-          let newData = this.state.data.slice();
-          newData.push(request.data);
-          this.setState({ data: newData});
-        });
+        let channelUrl = `${this.state.ROOT_URL}channels/${streamer}`;
+        let streamUrl = `${this.state.ROOT_URL}streams/${streamer}`;
+        return axios.all([axios.get(channelUrl), axios.get(streamUrl)])
+          .then(axios.spread((channelInfo, streamInfo) => {
+
+               if (channelInfo.data.status === 404) {
+                 channelInfo.data.status = channelInfo.data.message;
+                 channelInfo.data.logo = 'http://res.cloudinary.com/drgffavwf/image/upload/v1485444534/favicon_10_jt95ty.ico';
+                 channelInfo.data.display_name = 'whoops...';
+               }
+               else if (!streamInfo.data.stream) {
+                 channelInfo.data.status = 'Offline';
+               }
+               let newData = this.state.data.slice();
+               newData.push(channelInfo.data);
+               this.setState({ data: newData })
+          }));
       });
     }
 
     render(){
-      if (this.state.data.length === 9) {
-        const alldata = this.state.data.map(data => {
+      if (this.state.data.length === this.state.streamers.length) {
 
+        const alldata = this.state.data.map(data => {
           let status = data.status;
-          if (status === 404) status = data.message;
-          if (status == null) status = 'Offline';
 
           return (
             <UserInfo
@@ -49,7 +62,13 @@ class StreamList extends Component {
         });
 
         return (
-          <div>{alldata}</div>
+          <div>
+            <Table className="table">
+              <tbody>
+                {alldata}
+              </tbody>
+            </Table>
+          </div>
         );
       }
       else {
