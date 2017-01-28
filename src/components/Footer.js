@@ -11,8 +11,8 @@ const Div = styled.div`
 `;
 
 const Footer = () => {
-  return(
-    <Div/>
+  return (
+    <Div />
   );
 };
 

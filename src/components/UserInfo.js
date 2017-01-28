@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes, } from 'react';
 import styled from 'styled-components';
 
 const Row = styled.tr`
@@ -13,7 +13,6 @@ const Image = styled.img`
   &:hover {
     border: 3px solid #EFD469;
   }
-
 `;
 
 const Name = styled.td`
@@ -40,11 +39,18 @@ const P = styled.p`
   margin-top: 22px;
 `;
 
-const UserInfo = ({name, url, status, logo}) => {
+const UserInfo = ({ id, name, url, status, logo, }) => {
+  UserInfo.propTypes = {
+    id: PropTypes.string,
+    name: PropTypes.string,
+    url: PropTypes.string,
+    status: PropTypes.string,
+    logo: PropTypes.string,
+  };
 
   return (
-    <Row>
-      <th><a href={url}><Image src={logo}/></a></th>
+    <Row key={id}>
+      <th><a href={url}><Image src={logo} /></a></th>
       <Name><A href={url}>{name}</A></Name>
       <Status><P>{status}</P></Status>
     </Row>
