@@ -39,9 +39,9 @@ const P = styled.p`
   margin-top: 22px;
 `;
 
-const UserInfo = ({ id, name, url, status, logo, }) => {
+const UserInfo = ({ key, name, url, status, logo, }) => {
   UserInfo.propTypes = {
-    id: PropTypes.string,
+    key: PropTypes.string,
     name: PropTypes.string,
     url: PropTypes.string,
     status: PropTypes.string,
@@ -49,7 +49,7 @@ const UserInfo = ({ id, name, url, status, logo, }) => {
   };
 
   return (
-    <Row key={id}>
+    <Row key={key}>
       <th><a href={url}><Image src={logo} /></a></th>
       <Name><A href={url}>{name}</A></Name>
       <Status><P>{status}</P></Status>

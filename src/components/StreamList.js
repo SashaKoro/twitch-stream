@@ -34,11 +34,16 @@ class StreamList extends Component {
     this.streamChannels(this.state.streamers);
   }
 
+  /* eslint-disable max-len */
+  /* eslint-disable no-underscore-dangle */
+  /* eslint-disable camelcase */
+
   streamChannels (streamers) {
     streamers.map((streamer) => {
       const errUrl = 'http://res.cloudinary.com/drgffavwf/image/upload/v1485444534/favicon_10_jt95ty.ico';
       let channelUrl = `${this.state.ROOT_URL}channels/${streamer}`;
       let streamUrl = `${this.state.ROOT_URL}streams/${streamer}`;
+
       return axios.all([axios.get(channelUrl), axios.get(streamUrl),])
         .then(axios.spread((channelInfo, streamInfo) => {
           if (channelInfo.data.status === 404) {
@@ -48,6 +53,7 @@ class StreamList extends Component {
           } else if (!streamInfo.data.stream) {
             channelInfo.data.status = 'Offline';
           }
+
           let newData = this.state.data.slice();
           newData.push(channelInfo.data);
           this.setState({ data: newData, });
@@ -59,6 +65,7 @@ class StreamList extends Component {
     if (this.state.data.length === this.state.streamers.length) {
       const alldata = this.state.data.map((data) => {
         let status = data.status;
+
         return (
           <UserInfo
             key={data._id}
